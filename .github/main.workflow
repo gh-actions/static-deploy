@@ -1,23 +1,29 @@
 workflow "New workflow" {
   on = "push"
   resolves = [
-    "comfuture/ghpages"
+    "Deploy",
   ]
 }
 
-action "only master" {
+action "Choose master" {
   uses = "actions/bin/filter@3c98a2679187369a2116d4f311568596d3725740"
   secrets = ["GITHUB_TOKEN"]
   args = "branch master"
 }
 
-action "Generate" {
+action "Install deps" {
   uses = "actions/npm@master"
-  args = "generate"
-  needs = ["only master"]
+  args = "install"
+  needs = ["Choose master"]
 }
 
-action "comfuture/ghpages" {
+action "Generate" {
+  uses = "actions/npm@master"
+  args = "run generate"
+  needs = ["Install deps"]
+}
+
+action "Deploy" {
   uses = "comfuture/ghpages@38233d7"
   secrets = [
     "GITHUB_TOKEN",
