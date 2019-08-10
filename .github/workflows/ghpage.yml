@@ -1,0 +1,26 @@
+name: Publish to gh-pages
+
+on: [push]
+  branches:
+  - master
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+    - name: Use Node.js 10.x
+      uses: actions/setup-node@v1
+      with:
+        version: 10.x
+    - name: npm install, generate
+      run: |
+        npm install
+        npm run generate --if-present
+    - name: publish to gh-pages branch
+      uses: comfuture/ghpage@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
+      run: ./entrypoint.sh
