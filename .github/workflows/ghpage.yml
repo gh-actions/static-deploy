@@ -20,8 +20,8 @@ jobs:
         npm install
         npm run generate --if-present
     - name: publish to gh-pages branch
-      uses: comfuture/ghpage@38233d7
+      uses: comfuture/ghpages@master
       env:
         BUILD_DIR: dist/
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
+        GH_PAT: ${{ secrets.GH_PAT }}
